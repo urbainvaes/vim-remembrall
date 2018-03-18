@@ -1,6 +1,6 @@
-# Vim - remembrall
+# Remembrall
 
-Remembrall helps you remember your mappings.
+A small pluggin to make it easier to remember mappings.
 
 # Installation
 
@@ -11,6 +11,8 @@ Plug 'urbainvaes/vim-remembrall'
 ```
 
 # Usage
+
+![](https://raw.github.com/urbainvaes/vim-remembrall/gif/tty.gif)
 
 Adding support for a prefix can be done by adding mappings to your `.vimrc`:
 
@@ -27,7 +29,7 @@ vnoremap <silent> ? :call remembrall#remind('n', '')<cr>
 ```
 
 Remembrall defines a mapping for the all the prefixes in the list `g:remembrall_normal_keys`,
-which defaults to *c, d, g, y, ], [, >, <, =, <Leader>* and *<LocalLeader>*.
+which defaults to *c, d, g, y, ], [, >, <, =, \<Leader\>* and *\<LocalLeader\>*.
 A list of suffixes can be defined with `g:remembrall_suffixes`
 that will be appended to the left-hand side in the definition of the mappings.
 For example, `let g:remembrall_suffixes = ["", "?"]` will cause Remembrall to define the mappings
