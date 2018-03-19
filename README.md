@@ -14,6 +14,7 @@ Plug 'urbainvaes/vim-remembrall'
 
 ![](https://raw.github.com/urbainvaes/vim-remembrall/gif/tty.gif)
 
+To scroll the list, use `<c-e>`, `<c-y>`, `<c-f>`, or `<c-b>`.
 Adding support for a prefix can be done by adding mappings to your `.vimrc`:
 
 ```vim
