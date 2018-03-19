@@ -37,6 +37,11 @@ let s:literal_to_printable = {
       \ "\<C-U>" : "<C-U>", "\<C-V>" : "<C-V>", "\<C-W>" : "<C-W>", "\<C-X>" : "<C-X>",
       \ "\<C-Y>" : "<C-Y>", "\<C-Z>" : "<C-Z>" }
 
+let s:f_keys = {
+      \ "\<F1>": "<F1>", "\<F2>" :  "<F2>", "\<F3>" :  "<F3>", "\<F4>" : "<F4>",
+      \ "\<F5>": "<F5>", "\<F6>" :  "<F6>", "\<F7>" :  "<F7>", "\<F8>" : "<F8>",
+      \ "\<F9>": "<F9>", "\<F10>": "<F10>", "\<F11>": "<F11>", "\<F12>": "<F12>"}
+
 " From vim-peekaboo
 function! s:getpos()
   return {'tab': tabpagenr(), 'buf': bufnr(''), 'win': winnr(), 'cnt': winnr('$')}
@@ -125,7 +130,7 @@ function! s:display_matches(mode, p_prefix, s_prefix)
   norm gg
 
   syntax clear hintArg
-  execute 'syntax match hintArg /\v\s' . a:s_prefix . '/ contained nextgroup=hintMap'
+  execute 'syntax match hintArg /\m\s' . a:s_prefix . '/ contained nextgroup=hintMap'
 endfunction
 
 function! s:hints(mode, prefix, newch)
@@ -150,7 +155,8 @@ function! s:hints(mode, prefix, newch)
 
   call s:redraw(a:mode)
   while 1
-    let char = nr2char(getchar())
+    let ch = getchar()
+    let char = get(s:f_keys, ch, nr2char(ch))
 
     let key = get(s:scroll, char, '')
     if !empty(key)
