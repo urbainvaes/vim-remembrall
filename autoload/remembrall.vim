@@ -74,7 +74,7 @@ function! s:open()
   let s:zoom = 0
   let [s:stl, s:lst, s:winrestcmd] = [&showtabline, &laststatus, winrestcmd()]
   let s:positions = { 'current': s:getpos() }
-  execute get(g:, 'hints_window', s:default_window)
+  execute get(g:, 'remembrall_window', s:default_window)
   let s:positions.remembrall = s:getpos()
   let s:inplace = s:positions.current.tab == s:positions.remembrall.tab &&
         \ s:positions.current.win == s:positions.remembrall.win &&
