@@ -97,7 +97,6 @@ function! s:toggleZoom()
     set showtabline=0 laststatus=0
   endif
   let s:zoom = !s:zoom
-  echom s:zoom
 endfunction
 
 function! s:close(mode)
@@ -107,7 +106,7 @@ function! s:close(mode)
   if s:inplace
     noautocmd execute 'buf' s:positions.current.buf
   endif
-  silent! execute 'bdelete' s:positions.remembrall.buf
+  silent execute 'bdelete' s:positions.remembrall.buf
   if a:mode == 'v'
     normal! gv
   endif
@@ -119,15 +118,15 @@ function! s:display_matches(mode, p_prefix, s_prefix)
   elseif a:mode == 'v' | let map_command = 'vmap'
   endif
 
-  noautocmd execute 'buf' s:positions.current.buf
+  silent noautocmd execute 'buf' s:positions.current.buf
   redir => mappings | silent execute map_command a:p_prefix | redir END
-  noautocmd execute 'buf' s:positions.remembrall.buf
+  silent noautocmd execute 'buf' s:positions.remembrall.buf
 
   %delete _
   silent put=mappings
-  execute 'silent vglobal/\m^...' . a:s_prefix . '/d _'
+  silent execute 'vglobal/\m^...' . a:s_prefix . '/d _'
   silent! %substitute/\m^\(...\)/\1 /
-  norm gg
+  silent norm gg
 
   syntax clear hintArg
   execute 'syntax match hintArg /\m\s' . a:s_prefix . '/ contained nextgroup=hintMap'
