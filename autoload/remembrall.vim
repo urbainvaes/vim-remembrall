@@ -176,8 +176,11 @@ endfunction
 
 function! remembrall#remind(mode, chars)
   if getchar(1)
-    call feedkeys(a:chars, 'ni')
-    return
+    if a:chars =~ 'y\|c\|d'
+      call feedkeys('"'.v:register.a:chars, 'ni') | return
+    else
+      call feedkeys(a:chars, 'ni') | return
+    endif
   endif
   call s:open()
   try
