@@ -48,6 +48,10 @@ for all `x` in `g:remembrall_normal_keys`.
 | `g:remembrall_zoom`   | `\<c-z>`        | Key to toggle zoom                     |
 | `g:remembrall_accept` | `\<c-m>`        | Key to accept feed a mapping           |
 
+# Inspiration
+
+Some parts of the source code were inspired by [vim-peekaboo](https://github.com/junegunn/vim-peekaboo).
+
 # License
 
 MIT
