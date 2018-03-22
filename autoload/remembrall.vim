@@ -182,7 +182,9 @@ endfunction
 function! remembrall#remind(mode, chars)
   if getchar(1)
     if a:chars =~ 'y\|c\|d'
-      call feedkeys('"'.v:register.a:chars, 'ni') | return
+      call feedkeys('"'.v:register.v:count1.a:chars, 'ni') | return
+    elseif a:chars =~ '>\|<\|='
+      call feedkeys(v:count1.a:chars, 'ni') | return
     else
       call feedkeys(a:chars, 'ni') | return
     endif

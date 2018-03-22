@@ -34,7 +34,7 @@ function! remembrall#on()
   if has("patch-7.4.601")
     for suffix in s:suffixes
       for key in s:normal_keys
-        silent execute "nnoremap <silent>" key.suffix ":call remembrall#remind('n', '".key."')<cr>"
+        silent execute "nnoremap <silent>" key.suffix ":<c-u>call remembrall#remind('n', '".key."')<cr>"
       endfor
     endfor
   endif
