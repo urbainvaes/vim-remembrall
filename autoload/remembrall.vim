@@ -107,6 +107,8 @@ function! s:close(mode)
   endif
   if s:inplace
     noautocmd execute 'buf' s:positions.current.buf
+  else
+    noautocmd wincmd p
   endif
   silent execute 'bdelete' s:positions.remembrall.buf
   if a:mode == 'v'
