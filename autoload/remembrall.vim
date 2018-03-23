@@ -20,7 +20,7 @@
 " OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 " THE SOFTWARE.
 
-let s:default_window = 'topleft 10new'
+let s:default_window = 'enew'
 let [s:defaultZoomKey, s:defaultAcceptKey] = ["\<c-t>", "\<c-m>"]
 
 let s:scroll = {
@@ -182,12 +182,21 @@ endfunction
 function! remembrall#remind(mode, chars)
   if getchar(1)
     if a:chars =~ 'y\|c\|d'
-      call feedkeys('"'.v:register.v:count1.a:chars, 'ni') | return
+      if v:count > 0 
+        call feedkeys('"'.v:register.v:count.a:chars, 'ni')
+      else |
+        call feedkeys('"'.v:register.a:chars, 'ni')
+      endif
     elseif a:chars =~ '>\|<\|='
-      call feedkeys(v:count1.a:chars, 'ni') | return
+      if v:count > 0
+        call feedkeys(v:count.a:chars, 'ni')
+      else
+        call feedkeys(a:chars, 'ni')
+      endif
     else
-      call feedkeys(a:chars, 'ni') | return
+      call feedkeys(a:chars, 'ni')
     endif
+    return
   endif
   call s:open()
   try
