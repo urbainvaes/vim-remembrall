@@ -20,7 +20,7 @@
 " OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 " THE SOFTWARE.
 
-let s:default_window = 'enew'
+let s:default_window = 'topleft 10new'
 let [s:defaultZoomKey, s:defaultAcceptKey] = ["\<c-t>", "\<c-m>"]
 
 let s:scroll = {
