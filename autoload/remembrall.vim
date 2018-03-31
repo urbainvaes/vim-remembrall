@@ -86,7 +86,10 @@ function! s:open()
   let s:inplace = s:positions.current.tab == s:positions.remembrall.tab &&
         \ s:positions.current.win == s:positions.remembrall.win &&
         \ s:positions.current.cnt == s:positions.remembrall.cnt
-  setlocal filetype=remembrall nonumber nohlsearch nospell buftype=nofile bufhidden=hide
+  let s:hlsearch = &hlsearch
+  let s:vhlsearch = v:hlsearch
+  set nohlsearch
+  setlocal filetype=remembrall nonumber nospell buftype=nofile bufhidden=hide
         \ nobuflisted nowrap modifiable  statusline=>\ Remembrall nocursorline nofoldenable
 endfunction
 
@@ -115,6 +118,8 @@ function! s:close(mode)
     normal! gv
   endif
   let &l:startofline = s:sol
+  let &hlsearch = s:hlsearch
+  let v:hlsearch = s:vhlsearch
   " execute s:winrestcmd
 endfunction
 
