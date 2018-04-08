@@ -191,22 +191,10 @@ function! s:hints(mode, prefix, newch)
 endfunction
 
 function! remembrall#remind(mode, chars)
+  let count = v:count > 0 ? v:count : ""
+  let register = '"' . v:register
   if getchar(1)
-    if a:chars =~ 'y\|c\|d'
-      if v:count > 0 
-        call feedkeys('"'.v:register.v:count.a:chars, 'ni')
-      else |
-        call feedkeys('"'.v:register.a:chars, 'ni')
-      endif
-    elseif a:chars =~ '>\|<\|='
-      if v:count > 0
-        call feedkeys(v:count.a:chars, 'ni')
-      else
-        call feedkeys(a:chars, 'ni')
-      endif
-    else
-      call feedkeys(a:chars, 'ni')
-    endif
+    call feedkeys(register.count.a:chars, 'ni')
     return
   endif
   call s:open()
@@ -217,7 +205,7 @@ function! remembrall#remind(mode, chars)
   endtry
   call s:close(a:mode)
   redraw
-  call feedkeys(keys, keys == a:chars ? 'n' : '')
+  call feedkeys(register.count.keys, keys == a:chars ? 'n' : '')
 endfunction
 
 " vim: sw=2
