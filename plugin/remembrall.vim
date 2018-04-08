@@ -22,46 +22,48 @@
 
 let s:default_suffixes = [""]
 let s:default_normal_keys = ["y", "c", "d", "g", "]", "[", ">", "<", "="]
-let s:remembrall_on = 0
+
+function! Remembrall(mode, chars)
+  return getchar(1) ? a:chars :
+        \ ":\<c-u>call remembrall#remind(\"" . a:mode . "\", \"" . a:chars . "\")\<cr>"
+endfunction
 
 function! remembrall#on()
-  let s:remembrall_on = 1
-  nnoremap <silent> <Leader> :call remembrall#remind('n', '<Leader>')<cr>
-  nnoremap <silent> <LocalLeader> :call remembrall#remind('n', '<LocalLeader>')<cr>
-  vnoremap <silent> <Leader> :call remembrall#remind('v', '')<cr>
+  nnoremap <silent> <expr> <Leader> Remembrall('n', '<Leader>')
+  nnoremap <silent> <expr> <LocalLeader> Remembrall('n', '<LocalLeader>')
+  vnoremap <silent> <expr> <Leader> Remembrall('v', '')
   let s:normal_keys = get(g:, 'remembrall_normal_keys', s:default_normal_keys)
   let s:suffixes = get(g:, 'remembrall_suffixes', s:default_suffixes)
   if has("patch-7.4.601")
     for suffix in s:suffixes
       for key in s:normal_keys
-        silent execute "nnoremap <silent>" key.suffix ":<c-u>call remembrall#remind('n', '".key."')<cr>"
+        silent execute "nnoremap <silent> <expr>" key.suffix "Remembrall('n', '".key."')"
       endfor
     endfor
   endif
+  let s:remembrall_on = 1
+  echom "Remembrall status: on"
 endfunction
 
 function! remembrall#off()
-  let s:remembrall_on = 0
   nunmap <Leader>
-  vunmap <Leader>
   nunmap <LocalLeader>
+  vunmap <Leader>
   for suffix in s:suffixes
     for key in s:normal_keys
       silent execute "nunmap" key
     endfor
   endfor
+  let s:remembrall_on = 0
+  echom "Remembrall status: off"
 endfunction
 
 function! remembrall#toggle()
-  if s:remembrall_on
-    call remembrall#off()
-  else
-    call remembrall#on()
-  endif
+  call function(s:remembrall_on ? "remembrall#off" : "remembrall#on")()
 endfunction
 
-call remembrall#on()
-
 command! -nargs=0 RemembrallToggle call remembrall#toggle()
+
+silent call remembrall#on()
 
 " vim: sw=2

@@ -196,10 +196,13 @@ function! remembrall#remind(mode, chars)
         \ &clipboard =~ '.*\<unnamedplus\>.*' ? '+' :
         \ &clipboard =~ '.*\<unnamed\>.*' ? '*' : '"'
   let register = v:register ==# default_register ? '' : '"'.v:register
+
+  " Legacy, use <expr> instead
   if getchar(1)
     call feedkeys(register.count.a:chars, 'ni')
     return
   endif
+
   call s:open()
   try
     let keys = s:hints(a:mode, a:chars, '')
