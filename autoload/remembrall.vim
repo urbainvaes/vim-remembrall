@@ -112,7 +112,7 @@ function! s:close(mode)
     call s:toggleZoom()
   endif
   if s:inplace
-    noautocmd execute 'buf' s:positions.current.buf
+    silent noautocmd execute 'buf' s:positions.current.buf
   else
     noautocmd wincmd p
   endif
