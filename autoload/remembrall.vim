@@ -192,7 +192,10 @@ endfunction
 
 function! remembrall#remind(mode, chars)
   let count = v:count > 0 ? v:count : ""
-  let register = '"' . v:register
+  let default_register =
+        \ &clipboard =~ '.*\<unnamedplus\>.*' ? '+' :
+        \ &clipboard =~ '.*\<unnamed\>.*' ? '*' : '"'
+  let register = v:register ==# default_register ? '' : '"'.v:register
   if getchar(1)
     call feedkeys(register.count.a:chars, 'ni')
     return
