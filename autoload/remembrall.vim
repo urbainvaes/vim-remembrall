@@ -81,6 +81,7 @@ function! s:open()
   let s:zoom = 0
   let [s:stl, s:lst, s:winrestcmd] = [&showtabline, &laststatus, winrestcmd()]
   let s:sol = &l:startofline
+  let s:alternate = @#
   setlocal nostartofline
   let s:positions = { 'current': s:getpos() }
   execute get(g:, 'remembrall_window', s:default_window)
@@ -122,6 +123,9 @@ function! s:close(mode)
   let &l:startofline = s:sol
   let &hlsearch = s:hlsearch
   let v:hlsearch = s:vhlsearch
+  if s:alternate != '' && s:inplace
+    let @# = s:alternate
+  endif
   " execute s:winrestcmd
 endfunction
 
