@@ -24,8 +24,10 @@ let s:default_window = 'topleft 10new'
 let [s:defaultZoomKey, s:defaultAcceptKey] = ["\<c-t>", "\<c-m>"]
 
 let s:scroll = {
-      \ "\<c-y>" : "\<c-y>", "\<c-e>" : "\<c-e>",
-      \ "\<c-b>" : "\<c-b>", "\<c-f>" : "\<c-f>" }
+      \ "\<up>":       "\<c-y>", "\<c-y>": "\<c-y>",
+      \ "\<down>":     "\<c-e>", "\<c-e>": "\<c-e>",
+      \ "\<pageup>":   "\<c-b>", "\<c-b>": "\<c-b>",
+      \ "\<pagedown>": "\<c-f>", "\<c-f>": "\<c-f>" }
 
 let s:literal_to_printable = {
       \ "\<Space>" : "<Space>",
@@ -167,7 +169,7 @@ function! s:hints(mode, prefix, newch)
     let ch = getchar()
     let char = get(s:f_keys, ch, nr2char(ch))
 
-    let key = get(s:scroll, char, '')
+    let key = get(s:scroll, ch, get(s:scroll, char, ''))
     if !empty(key)
       execute 'normal!' key
       call s:redraw(a:mode)
