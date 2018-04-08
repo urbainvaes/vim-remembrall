@@ -217,7 +217,7 @@ function! remembrall#remind(mode, chars)
   endtry
   call s:close(a:mode)
   redraw
-  call feedkeys(keys)
+  call feedkeys(keys, keys == a:chars ? 'n' : '')
 endfunction
 
 " vim: sw=2
