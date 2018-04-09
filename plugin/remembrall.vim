@@ -21,7 +21,7 @@
 " THE SOFTWARE.
 
 let s:default_suffixes = [""]
-let s:default_normal_keys = ["y", "c", "d", "g", "]", "[", ">", "<", "="]
+let s:default_normal_keys = ["<Leader>", "<LocalLeader>", "y", "c", "d", "g", "]", "[", ">", "<", "="]
 
 function! Remembrall(mode, chars)
   return getchar(1) ? a:chars :
@@ -29,8 +29,6 @@ function! Remembrall(mode, chars)
 endfunction
 
 function! remembrall#on()
-  nnoremap <silent> <expr> <Leader> Remembrall('n', '<Leader>')
-  nnoremap <silent> <expr> <LocalLeader> Remembrall('n', '<LocalLeader>')
   vnoremap <silent> <expr> <Leader> Remembrall('v', '')
   let s:normal_keys = get(g:, 'remembrall_normal_keys', s:default_normal_keys)
   let s:suffixes = get(g:, 'remembrall_suffixes', s:default_suffixes)
@@ -46,8 +44,6 @@ function! remembrall#on()
 endfunction
 
 function! remembrall#off()
-  nunmap <Leader>
-  nunmap <LocalLeader>
   vunmap <Leader>
   for suffix in s:suffixes
     for key in s:normal_keys

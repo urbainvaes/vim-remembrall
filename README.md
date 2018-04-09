@@ -19,14 +19,14 @@ Adding support for a prefix can be done by adding mappings to your `.vimrc`:
 
 ```vim
 " Show ',' normal mode mappings when key ',' is pressed
-nnoremap <silent> , :call remembrall#remind('n', ',')<cr>
+nnoremap <silent> <expr> , Remembrall('n', ',')
 
 " Show ',' normal mode mappings when the key combination ',?' is pressed,
 " so we don't have to wait for the timeout.
-nnoremap <silent> ,? :call remembrall#remind('n', ',')<cr>
+nnoremap <silent> <expr> ,? Remembrall('n', ',')
 
 " Show visual mode mappings
-vnoremap <silent> ? :call remembrall#remind('n', '')<cr>
+vnoremap <silent> <expr> ? Remembrall('v', '')
 ```
 
 Remembrall defines a mapping for the all the prefixes in the list `g:remembrall_normal_keys`,
@@ -35,10 +35,22 @@ A list of suffixes can be defined with `g:remembrall_suffixes`
 that will be appended to the left-hand side in the definition of the mappings.
 For example, `let g:remembrall_suffixes = ["", "?"]` will cause Remembrall to define the mappings
 ```vim
-nnoremap <silent> x :call remembrall#remind('n', ',')<cr>
-nnoremap <silent> x? :call remembrall#remind('n', ',')<cr>
+nnoremap <silent> <expr> x Remembrall('n', ',')
+nnoremap <silent> <expr> x? Remembrall('n', ',')
 ```
 for all `x` in `g:remembrall_normal_keys`.
+
+To avoid the timeout between a key press and the moment Remembrall opens,
+the argument `<nowait>` can be used in the definition of the corresponding mapping.
+This can be useful if you are not familiar with the keybindings of a plugin.
+The following mapping, for example,
+will force Remembrall to open directly every time the default `vimtex` prefix,
+`<LocalLeader>l`, is pressed in a `tex` buffer:
+```vim
+augroup remembrall
+    autocmd FileType tex nnoremap <buffer> <nowait> <expr> <LocalLeader>l Remembrall('n', ',l')
+augroup END
+```
 
 # Customization
 
@@ -46,7 +58,9 @@ for all `x` in `g:remembrall_normal_keys`.
 | ------                | -------         | -----------                            |
 | `g:remembrall_window` | `topleft 30new` | Command for creating Remembrall window |
 | `g:remembrall_zoom`   | `\<c-z>`        | Key to toggle zoom                     |
-| `g:remembrall_accept` | `\<c-m>`        | Key to accept feed a mapping           |
+| `g:remembrall_accept` | `\<c-m>`        | Key to accept a mapping                |
+
+The last option is useful only in the case of nested mappings.
 
 # Inspiration
 
