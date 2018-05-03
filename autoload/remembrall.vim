@@ -20,8 +20,10 @@
 " OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 " THE SOFTWARE.
 
-let s:default_window = 'topleft 10new'
-let [s:defaultZoomKey, s:defaultAcceptKey] = ["\<c-t>", "\<c-m>"]
+let s:defaultWindow = "topleft 10new"
+let s:defaultZoomKey = "\<c-t>"
+let s:defaultAcceptKey = "\<c-m>"
+let s:defaultSearchMode = 1
 
 let s:scroll = {
       \ "\<up>":       "\<c-y>", "\<c-y>": "\<c-y>",
@@ -84,7 +86,7 @@ function! s:open()
   let s:alternate = @#
   setlocal nostartofline
   let s:positions = { 'current': s:getpos() }
-  execute get(g:, 'remembrall_window', s:default_window)
+  execute get(g:, 'remembrall_window', s:defaultWindow)
   let s:positions.remembrall = s:getpos()
   let s:inplace = s:positions.current.tab == s:positions.remembrall.tab &&
         \ s:positions.current.win == s:positions.remembrall.win &&
@@ -100,6 +102,7 @@ function! s:toggleZoom()
   if s:zoom
     tab close
     let [&showtabline, &laststatus] = [s:stl, s:lst]
+    noautocmd execute 'tabnext' s:positions.current.tab
   else
     tab split
     set showtabline=0 laststatus=0
