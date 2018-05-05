@@ -23,7 +23,7 @@
 let s:defaultWindow = "topleft 10new"
 let s:defaultZoomKey = "\<c-t>"
 let s:defaultAcceptKey = "\<c-m>"
-let s:defaultSearchMode = 1
+let s:defaultSearch = 1
 
 let s:scroll = {
       \ "\<up>":       "\<c-y>", "\<c-y>": "\<c-y>",
@@ -45,6 +45,19 @@ let s:f_keys = {
       \ "\<F1>": "<F1>", "\<F2>" :  "<F2>", "\<F3>" :  "<F3>", "\<F4>" : "<F4>",
       \ "\<F5>": "<F5>", "\<F6>" :  "<F6>", "\<F7>" :  "<F7>", "\<F8>" : "<F8>",
       \ "\<F9>": "<F9>", "\<F10>": "<F10>", "\<F11>": "<F11>", "\<F12>": "<F12>"}
+
+let s:printable_to_literal = {
+      \ "<Space>" : "\<Space>",
+      \ "<C-A>" : "\<C-A>", "<C-B>" : "\<C-B>", "<C-C>" : "\<C-C>", "<C-D>" : "\<C-D>",
+      \ "<C-E>" : "\<C-E>", "<C-F>" : "\<C-F>", "<C-G>" : "\<C-G>", "<C-H>" : "\<C-H>",
+      \ "<C-I>" : "\<C-I>", "<C-J>" : "\<C-J>", "<C-K>" : "\<C-K>", "<C-L>" : "\<C-L>",
+      \ "<C-M>" : "\<C-M>", "<C-N>" : "\<C-N>", "<C-O>" : "\<C-O>", "<C-P>" : "\<C-P>",
+      \ "<C-Q>" : "\<C-Q>", "<C-R>" : "\<C-R>", "<C-S>" : "\<C-S>", "<C-T>" : "\<C-T>",
+      \ "<C-U>" : "\<C-U>", "<C-V>" : "\<C-V>", "<C-W>" : "\<C-W>", "<C-X>" : "\<C-X>",
+      \ "<C-Y>" : "\<C-Y>", "<C-Z>" : "\<C-Z>",
+      \ "<F1>": "\<F1>", "<F2>" :  "\<F2>", "<F3>" :  "\<F3>", "<F4>" : "\<F4>",
+      \ "<F5>": "\<F5>", "<F6>" :  "\<F6>", "<F7>" :  "\<F7>", "<F8>" : "\<F8>",
+      \ "<F9>": "\<F9>", "<F10>": "\<F10>", "<F11>": "\<F11>", "<F12>": "<\F12>"}
 
 " From vim-peekaboo
 function! s:getpos()
@@ -110,7 +123,7 @@ function! s:toggleZoom()
   let s:zoom = !s:zoom
 endfunction
 
-function! s:close(mode)
+function! remembrall#close(mode, feedargs)
   if s:zoom
     call s:toggleZoom()
   endif
@@ -130,6 +143,27 @@ function! s:close(mode)
     let @# = s:alternate
   endif
   " execute s:winrestcmd
+  redraw
+  call feedkeys(a:feedargs[0], a:feedargs[1])
+endfunction
+
+function! remembrall#parse_for_feed(keys)
+  let result = a:keys
+  let match_special = matchstr(result, "<[^>]*>")
+  while match_special != ""
+    let lit_special = get(s:printable_to_literal, match_special)
+    let result = substitute(result, "<[^>]*>", lit_special, "")
+    let match_special = matchstr(result, "<[^>]*>")
+  endwhile
+  return result
+endfunction
+
+function! s:search()
+  nnoremap <silent> <buffer> <cr> :
+        \ let keys=matchstr(getline('.'), "[^ ]*", 4) \|
+        \ call remembrall#close('n', [remembrall#parse_for_feed(keys), ''])<cr>
+  nnoremap <silent> <buffer> q :call remembrall#close('n', ['', ''])<cr>
+  call feedkeys('/', 'n')
 endfunction
 
 function! s:display_matches(mode, p_prefix, s_prefix)
@@ -189,6 +223,11 @@ function! s:hints(mode, prefix, newch)
       continue
     endif
 
+    if char == "/" && get(g:, "remembrall_search", s:defaultSearch)
+      call s:search()
+      return "in_search"
+    endif
+
     return s:hints(a:mode, prefix, char)
   endwhile
 endfunction
@@ -212,9 +251,9 @@ function! remembrall#remind(mode, chars)
   catch /^Vim:Interrupt$/
     let keys = ''
   endtry
-  call s:close(a:mode)
-  redraw
-  call feedkeys(register.count.keys, keys == a:chars ? 'n' : '')
+  if keys != "in_search"
+    call remembrall#close(a:mode, [register.count.keys, keys == a:chars ? 'n' : ''])
+  endif
 endfunction
 
 " vim: sw=2
