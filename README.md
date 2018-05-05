@@ -19,11 +19,11 @@ Adding support for a prefix can be done by adding mappings to your `.vimrc`:
 
 ```vim
 " Show ',' normal mode mappings when key ',' is pressed
-nnoremap <silent> <expr> , Remembrall('n', ',')
+nnoremap <silent> <expr> , Remembrall(',')
 
 " Show ',' normal mode mappings when the key combination ',?' is pressed,
 " so we don't have to wait for the timeout.
-nnoremap <silent> <expr> ,? Remembrall('n', ',')
+nnoremap <silent> <expr> ,? Remembrall(',')
 
 " Show visual mode mappings
 vnoremap <silent> <expr> ? Remembrall('v', '')
@@ -35,8 +35,8 @@ A list of suffixes can be defined with `g:remembrall_suffixes`
 that will be appended to the left-hand side in the definition of the mappings.
 For example, `let g:remembrall_suffixes = ["", "?"]` will cause Remembrall to define the mappings
 ```vim
-nnoremap <silent> <expr> x Remembrall('n', ',')
-nnoremap <silent> <expr> x? Remembrall('n', ',')
+nnoremap <silent> <expr> x Remembrall(',')
+nnoremap <silent> <expr> x? Remembrall(',')
 ```
 for all `x` in `g:remembrall_normal_keys`.
 

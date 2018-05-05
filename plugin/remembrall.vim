@@ -23,9 +23,11 @@
 let s:default_suffixes = [""]
 let s:default_normal_keys = ["<Leader>", "<LocalLeader>", "y", "c", "d", "g", "]", "[", ">", "<", "="]
 
-function! Remembrall(mode, chars)
-  return getchar(1) ? a:chars :
-        \ ":\<c-u>call remembrall#remind(\"" . a:mode . "\", \"" . a:chars . "\")\<cr>"
+function! Remembrall(...)
+  let mode = a:0 == 1 ? 'n' : a:1
+  let chars = a:0 == 2 ? a:2 : a:1
+  return getchar(1) ? chars :
+        \ ":\<c-u>call remembrall#remind(\"" . mode . "\", \"" . chars . "\")\<cr>"
 endfunction
 
 function! remembrall#on()
@@ -35,7 +37,7 @@ function! remembrall#on()
   if has("patch-7.4.601")
     for suffix in s:suffixes
       for key in s:normal_keys
-        silent execute "nnoremap <silent> <expr>" key.suffix "Remembrall('n', '".key."')"
+        silent execute "nnoremap <silent> <expr>" key.suffix "Remembrall('".key."')"
       endfor
     endfor
   endif
