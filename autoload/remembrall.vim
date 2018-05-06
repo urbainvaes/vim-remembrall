@@ -104,9 +104,6 @@ function! s:open()
   let s:inplace = s:positions.current.tab == s:positions.remembrall.tab &&
         \ s:positions.current.win == s:positions.remembrall.win &&
         \ s:positions.current.cnt == s:positions.remembrall.cnt
-  let s:hlsearch = &hlsearch
-  let s:vhlsearch = v:hlsearch
-  set nohlsearch
   setlocal filetype=remembrall nonumber nospell buftype=nofile bufhidden=hide
         \ nobuflisted nowrap modifiable  statusline=>\ Remembrall nocursorline nofoldenable
 endfunction
@@ -137,8 +134,6 @@ function! remembrall#close(mode, feedargs)
     normal! gv
   endif
   let &l:startofline = s:sol
-  let &hlsearch = s:hlsearch
-  let v:hlsearch = s:vhlsearch
   if s:alternate != '' && s:inplace
     let @# = s:alternate
   endif
@@ -181,6 +176,7 @@ function! s:display_matches(mode, p_prefix, s_prefix)
   silent! %substitute/\m^\(...\)/\1 /
   silent norm gg
   call histdel("search", -1)
+  let @/ = histget("search", -1)
 
   syntax clear hintArg
   execute 'syntax match hintArg /\m\s' . a:s_prefix . '/ contained nextgroup=hintMap'
