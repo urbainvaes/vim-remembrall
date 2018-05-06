@@ -180,6 +180,7 @@ function! s:display_matches(mode, p_prefix, s_prefix)
   silent execute 'vglobal/\m^...' . a:s_prefix . '/d _'
   silent! %substitute/\m^\(...\)/\1 /
   silent norm gg
+  call histdel("search", -1)
 
   syntax clear hintArg
   execute 'syntax match hintArg /\m\s' . a:s_prefix . '/ contained nextgroup=hintMap'
