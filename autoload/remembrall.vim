@@ -234,7 +234,7 @@ function! s:hints(mode, prefix, newch)
 endfunction
 
 function! remembrall#remind(mode, chars)
-  let count = v:count > 0 ? v:count : ""
+  let countVar = v:count > 0 ? v:count : ""
   let default_register =
         \ &clipboard =~ '.*\<unnamedplus\>.*' ? '+' :
         \ &clipboard =~ '.*\<unnamed\>.*' ? '*' : '"'
@@ -242,7 +242,7 @@ function! remembrall#remind(mode, chars)
 
   " Legacy, use <expr> instead
   if getchar(1)
-    call feedkeys(register.count.a:chars, 'ni')
+    call feedkeys(register.countVar.a:chars, 'ni')
     return
   endif
 
@@ -253,7 +253,7 @@ function! remembrall#remind(mode, chars)
     let keys = ''
   endtry
   if keys != "in_search"
-    call remembrall#close(a:mode, [register.count.keys, keys == a:chars ? 'n' : ''])
+    call remembrall#close(a:mode, [register.countVar.keys, keys == a:chars ? 'n' : ''])
   endif
 endfunction
 

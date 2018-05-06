@@ -48,7 +48,7 @@ will force Remembrall to open directly every time the default `vimtex` prefix,
 `<LocalLeader>l`, is pressed in a `tex` buffer:
 ```vim
 augroup remembrall
-    autocmd FileType tex nnoremap <buffer> <nowait> <expr> <LocalLeader>l Remembrall('n', ',l')
+    autocmd FileType tex nnoremap <buffer> <nowait> <expr> <LocalLeader>l Remembrall(',l')
 augroup END
 ```
 
@@ -63,9 +63,11 @@ augroup END
 
 The last option is useful only in the case of nested mappings.
 
-# Inspiration
+# Inspiration and thanks
 
 Some parts of the source code were inspired by [vim-peekaboo](https://github.com/junegunn/vim-peekaboo).
+
+Many thanks to Raimond Willemsen for reporting many bugs and suggesting improvements.
 
 # License
 
