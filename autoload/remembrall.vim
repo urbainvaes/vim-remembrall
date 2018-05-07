@@ -46,19 +46,6 @@ let s:f_keys = {
       \ "\<F5>": "<F5>", "\<F6>" :  "<F6>", "\<F7>" :  "<F7>", "\<F8>" : "<F8>",
       \ "\<F9>": "<F9>", "\<F10>": "<F10>", "\<F11>": "<F11>", "\<F12>": "<F12>"}
 
-let s:printable_to_literal = {
-      \ "<Space>" : "\<Space>",
-      \ "<C-A>" : "\<C-A>", "<C-B>" : "\<C-B>", "<C-C>" : "\<C-C>", "<C-D>" : "\<C-D>",
-      \ "<C-E>" : "\<C-E>", "<C-F>" : "\<C-F>", "<C-G>" : "\<C-G>", "<C-H>" : "\<C-H>",
-      \ "<C-I>" : "\<C-I>", "<C-J>" : "\<C-J>", "<C-K>" : "\<C-K>", "<C-L>" : "\<C-L>",
-      \ "<C-M>" : "\<C-M>", "<C-N>" : "\<C-N>", "<C-O>" : "\<C-O>", "<C-P>" : "\<C-P>",
-      \ "<C-Q>" : "\<C-Q>", "<C-R>" : "\<C-R>", "<C-S>" : "\<C-S>", "<C-T>" : "\<C-T>",
-      \ "<C-U>" : "\<C-U>", "<C-V>" : "\<C-V>", "<C-W>" : "\<C-W>", "<C-X>" : "\<C-X>",
-      \ "<C-Y>" : "\<C-Y>", "<C-Z>" : "\<C-Z>",
-      \ "<F1>": "\<F1>", "<F2>" :  "\<F2>", "<F3>" :  "\<F3>", "<F4>" : "\<F4>",
-      \ "<F5>": "\<F5>", "<F6>" :  "\<F6>", "<F7>" :  "\<F7>", "<F8>" : "\<F8>",
-      \ "<F9>": "\<F9>", "<F10>": "\<F10>", "<F11>": "\<F11>", "<F12>": "<\F12>"}
-
 " From vim-peekaboo
 function! s:getpos()
   return {'tab': tabpagenr(), 'buf': bufnr(''), 'win': winnr(), 'cnt': winnr('$')}
@@ -142,21 +129,10 @@ function! remembrall#close(mode, feedargs)
   call feedkeys(a:feedargs[0], a:feedargs[1])
 endfunction
 
-function! remembrall#parse_for_feed(keys)
-  let result = a:keys
-  let match_special = matchstr(result, "<[^>]*>")
-  while match_special != ""
-    let lit_special = get(s:printable_to_literal, match_special)
-    let result = substitute(result, "<[^>]*>", lit_special, "")
-    let match_special = matchstr(result, "<[^>]*>")
-  endwhile
-  return result
-endfunction
-
 function! s:search()
   nnoremap <silent> <buffer> <cr> :
         \ let keys=matchstr(getline('.'), "[^ ]*", 4) \|
-        \ call remembrall#close('n', [remembrall#parse_for_feed(keys), ''])<cr>
+        \ call remembrall#close('n', [eval('"'.escape(keys, '\<"').'"'), ''])<cr>
   nnoremap <silent> <buffer> q :call remembrall#close('n', ['', ''])<cr>
   call feedkeys('/', 'n')
 endfunction
