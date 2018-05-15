@@ -134,6 +134,7 @@ function! s:search()
         \ let keys=matchstr(getline('.'), "[^ ]*", 4) \|
         \ call remembrall#close('n', [eval('"'.escape(keys, '\<"').'"'), ''])<cr>
   nnoremap <silent> <buffer> q :call remembrall#close('n', ['', ''])<cr>
+  nnoremap <silent> <buffer> <esc> :call remembrall#close('n', ['', ''])<cr>
   call feedkeys('/', 'n')
 endfunction
 
