@@ -28,8 +28,7 @@ syntax match hintScope /\s*[*&]\{0,1}@\{0,1}/ contained nextgroup=hintValue skip
 syntax match hintValue /.*$/ contained
 
 highlight default link hintMode Type
-highlight default link hintArg Character
+highlight default link hintArg SpecialChar
 highlight default link hintMap Constant
-highlight default link hintScope Special
+highlight default link hintScope Label
 highlight default link hintValue Function
-highlight default link hintSelected Todo
