@@ -147,7 +147,7 @@ function! s:display_matches(mode, p_prefix, s_prefix)
   redir => mappings | silent execute map_command a:p_prefix | redir END
   silent noautocmd execute 'buf' s:positions.remembrall.buf
 
-  %delete _
+  silent %delete _
   silent put=mappings
   silent execute 'vglobal/\m^...' . a:s_prefix . '/d _'
   silent! %substitute/\m^\(...\)/\1 /
