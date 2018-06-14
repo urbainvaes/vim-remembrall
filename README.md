@@ -1,6 +1,6 @@
 # Remembrall
 
-A small pluggin to make it easier to remember mappings.
+A small plugin to make it easier to remember mappings.
 
 # Installation
 
@@ -14,11 +14,11 @@ Plug 'urbainvaes/vim-remembrall'
 
 ![](https://raw.github.com/urbainvaes/vim-remembrall/gif/tty.gif)
 
-To scroll the list, use `<c-e>`, `<c-y>`, `<c-f>`, or `<c-b>`.
-Adding support for a prefix can be done by adding mappings to your `.vimrc`:
+To scroll down and up the list, use `<c-e>`, `<c-y>`, `<c-f>`, or `<c-b>`.
+Adding support for a prefix can be done via mappings to your `.vimrc`:
 
 ```vim
-" Show ',' normal mode mappings when key ',' is pressed
+" Show ',' normal mode mappings when ',' is pressed
 nnoremap <silent> <expr> , Remembrall(',')
 
 " Show ',' normal mode mappings when the key combination ',?' is pressed,
@@ -67,7 +67,7 @@ The last option is useful only in the case of nested mappings.
 
 Some parts of the source code were inspired by [vim-peekaboo](https://github.com/junegunn/vim-peekaboo).
 
-Many thanks to Raimond Willemsen for reporting many bugs and suggesting improvements.
+Many thanks to Raimond Willemsen for reporting bugs and suggesting improvements.
 
 # License
 
