@@ -150,6 +150,7 @@ function! s:display_matches(mode, p_prefix, s_prefix)
   silent %delete _
   silent put=mappings
   silent execute 'vglobal/\m^...' . a:s_prefix . '/d _'
+  silent execute 'global/Remembrall/d _'
   silent! %substitute/\m^\(...\)/\1 /
   silent norm gg
   call histdel("search", -1)
