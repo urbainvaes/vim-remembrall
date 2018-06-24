@@ -198,9 +198,15 @@ function! s:hints(mode, prefix, newch)
       continue
     endif
 
-    if char == "/" && get(g:, "remembrall_search", s:defaultSearch)
-      call s:search()
-      return "in_search"
+    if char == get(g:, "remembrall_zoom_key", s:defaultZoomKey)
+      call s:toggleZoom()
+      call s:redraw(a:mode)
+      continue
+    endif
+
+    if ch == "\<bs>"
+      let prefix = strpart(prefix, 0, strlen(prefix) - 1)
+      return s:hints(a:mode, prefix, '')
     endif
 
     return s:hints(a:mode, prefix, char)
