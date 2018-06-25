@@ -22,8 +22,9 @@
 
 let s:defaultWindow = "topleft 10new"
 let s:defaultZoomKey = "\<c-t>"
-let s:defaultAcceptKey = "\<c-m>"
 let s:defaultSearch = 1
+let s:defaultAutoAccept = 1
+let s:defaultAcceptKey = "\<c-m>"
 
 let s:scroll = {
       \ "\<up>":       "\<c-y>", "\<c-y>": "\<c-y>",
@@ -161,12 +162,6 @@ function! s:display_matches(mode, p_prefix, s_prefix)
 endfunction
 
 function! s:hints(mode, prefix, newch)
-  if a:newch == ''
-    return ''
-  endif
-  if a:newch == s:defaultAcceptKey
-    return a:prefix
-  endif
 
   let prefix = a:prefix . a:newch
   let p_prefix = s:l2p(prefix)
@@ -176,9 +171,13 @@ function! s:hints(mode, prefix, newch)
 
   if line('$') == 1
     if search('^....'.s_prefix.'\s') || !search('^....'.s_prefix)
-      return prefix
+      if get(g:, "remembrall_auto_accept", s:defaultAutoAccept)
+        return prefix
+      endif
     endif
   endif
+
+  exe "setlocal statusline=>\\ Remembrall:\\ ".prefix
 
   call s:redraw(a:mode)
   while 1
@@ -206,6 +205,14 @@ function! s:hints(mode, prefix, newch)
     if ch == "\<bs>"
       let prefix = strpart(prefix, 0, strlen(prefix) - 1)
       return s:hints(a:mode, prefix, '')
+    endif
+
+    if char == ''
+      return ''
+    endif
+
+    if char == s:defaultAcceptKey
+      return prefix
     endif
 
     return s:hints(a:mode, prefix, char)

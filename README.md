@@ -54,12 +54,13 @@ augroup END
 
 # Customization
 
-| Config                | Default         | Description                            |
-| ------                | -------         | -----------                            |
-| `g:remembrall_window` | `topleft 30new` | Command for creating Remembrall window |
-| `g:remembrall_zoom`   | `\<c-z>`        | Key to toggle zoom                     |
-| `g:remembrall_accept` | `\<c-m>`        | Key to accept a mapping                |
-| `g:remembrall_search` | `1`             | Enable search using `/`                |
+| Config                     | Default         | Description                            |
+| ------                     | -------         | -----------                            |
+| `g:remembrall_window`      | `topleft 30new` | Command for creating Remembrall window |
+| `g:remembrall_zoom`        | `\<c-z>`        | Key to toggle zoom                     |
+| `g:remembrall_accept`      | `\<c-m>`        | Key to accept a mapping                |
+| `g:remembrall_search`      | `1`             | Enable search using `/`                |
+| `g:remembrall_auto_accept` | `1`             | Automically accept unique match        |
 
 The last option is useful only in the case of nested mappings.
 
