@@ -102,8 +102,10 @@ function! s:toggleZoom()
     let [&showtabline, &laststatus] = [s:stl, s:lst]
     noautocmd execute 'tabnext' s:positions.current.tab
   else
+    let statusline=&statusline
     tab split
-    set showtabline=0 laststatus=0
+    echom "set statusline=".escape(statusline, " ")
+    set showtabline=0
   endif
   let s:zoom = !s:zoom
 endfunction
@@ -177,7 +179,7 @@ function! s:hints(mode, prefix, newch)
     endif
   endif
 
-  exe "setlocal statusline=>\\ Remembrall:\\ ".prefix
+  exe "setlocal statusline=>\\ Remembrall:\\ ".substitute(prefix, " ", "<Space>", "g")
 
   call s:redraw(a:mode)
   while 1
@@ -202,7 +204,7 @@ function! s:hints(mode, prefix, newch)
       return "in_search"
     endif
 
-    if ch == "\<bs>"
+    if ch == "\<bs>" || char == "\<c-h>"
       let prefix = strpart(prefix, 0, strlen(prefix) - 1)
       return s:hints(a:mode, prefix, '')
     endif
