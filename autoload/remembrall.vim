@@ -198,10 +198,9 @@ function! s:hints(mode, prefix, newch)
       continue
     endif
 
-    if char == get(g:, "remembrall_zoom_key", s:defaultZoomKey)
-      call s:toggleZoom()
-      call s:redraw(a:mode)
-      continue
+    if char == "/" && get(g:, "remembrall_search", s:defaultSearch)
+      call s:search()
+      return "in_search"
     endif
 
     if ch == "\<bs>"
