@@ -30,7 +30,7 @@ function! Remembrall(...)
         \ ":\<c-u>call remembrall#remind(\"" . mode . "\", \"" . chars . "\")\<cr>"
 endfunction
 
-function! remembrall#on()
+function! Remembrall_on()
   vnoremap <silent> <expr> <Leader> Remembrall('v', '')
   let s:normal_keys = get(g:, 'remembrall_normal_keys', s:default_normal_keys)
   let s:suffixes = get(g:, 'remembrall_suffixes', s:default_suffixes)
@@ -45,7 +45,7 @@ function! remembrall#on()
   echom "Remembrall status: on"
 endfunction
 
-function! remembrall#off()
+function! Remembrall_off()
   vunmap <Leader>
   for suffix in s:suffixes
     for key in s:normal_keys
@@ -56,12 +56,12 @@ function! remembrall#off()
   echom "Remembrall status: off"
 endfunction
 
-function! remembrall#toggle()
-  call function(s:remembrall_on ? "remembrall#off" : "remembrall#on")()
+function! Remembrall_toggle()
+  call function(s:remembrall_on ? "Remembrall_off" : "Remembrall_on")()
 endfunction
 
-command! -nargs=0 RemembrallToggle call remembrall#toggle()
+command! -nargs=0 RemembrallToggle call Remembrall_toggle()
 
-silent call remembrall#on()
+silent call Remembrall_on()
 
 " vim: sw=2
