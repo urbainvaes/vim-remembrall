@@ -20,6 +20,12 @@
 " OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 " THE SOFTWARE.
 
+if exists('g:loaded_remembrall') || &compatible
+    finish
+endif
+let g:loaded_remembrall = 1
+
+
 let s:default_suffixes = [""]
 let s:default_normal_keys = ["<Leader>", "<LocalLeader>", "y", "c", "d", "g", "]", "[", ">", "<", "="]
 
