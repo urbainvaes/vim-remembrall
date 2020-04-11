@@ -25,7 +25,6 @@ if exists('g:loaded_remembrall') || &compatible
 endif
 let g:loaded_remembrall = 1
 
-
 let s:default_suffixes = [""]
 let s:default_normal_keys = ["<Leader>", "<LocalLeader>", "y", "c", "d", "g", "]", "[", ">", "<", "="]
 
