@@ -2,7 +2,7 @@
 
 This is a small plugin that makes it easier to remember mappings.
 
-# Installation
+## Installation
 
 Using [vim-plug](https://github.com/junegunn/vim-plug):
 
@@ -10,7 +10,7 @@ Using [vim-plug](https://github.com/junegunn/vim-plug):
 Plug 'urbainvaes/vim-remembrall'
 ```
 
-# Usage
+## Usage
 
 ![](https://raw.github.com/urbainvaes/vim-remembrall/gif/tty.gif)
 
@@ -56,7 +56,7 @@ augroup remembrall
 augroup END
 ```
 
-# Customization
+## Customization
 
 | Config                     | Default         | Description                                          |
 | ------                     | -------         | -----------                                          |
@@ -68,11 +68,11 @@ augroup END
 | `g:remembrall_auto_accept` | `1`             | Automically accept unique match                      |
 | `g:remembrall_accept`      | `\<c-m>`        | Key to accept a mapping when auto-accept is disabled |
 
-# Inspiration and thanks
+## Inspiration and thanks
 
 Some parts of the source code were inspired by [vim-peekaboo](https://github.com/junegunn/vim-peekaboo).
 Many thanks to Raimond Willemsen for reporting bugs and suggesting improvements.
 
-# License
+## License
 
 MIT
