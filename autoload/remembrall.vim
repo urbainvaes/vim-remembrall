@@ -117,6 +117,7 @@ function! remembrall#close(mode, feedargs)
   if s:inplace
     silent noautocmd execute 'buf' s:positions.current.buf
   else
+    " Works only if same window
     noautocmd wincmd p
   endif
   silent execute 'bdelete' s:positions.remembrall.buf
