@@ -68,10 +68,10 @@ augroup END
 | `g:remembrall_auto_accept` | `1`             | Automically accept unique match                      |
 | `g:remembrall_accept`      | `\<c-m>`        | Key to accept a mapping when auto-accept is disabled |
 
-## Inspiration and thanks
+## Acknowledgements
 
 Some parts of the source code were inspired by [vim-peekaboo](https://github.com/junegunn/vim-peekaboo).
-Many thanks to Raimond Willemsen for reporting bugs and suggesting improvements.
+I thank Raimond Willemsen for reporting bugs and suggesting improvements.
 
 ## License
 
