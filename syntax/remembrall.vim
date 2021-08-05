@@ -38,4 +38,4 @@ highlight default link hintScope Label
 highlight default link hintValue Function
 
 let normal_bg = synIDattr(hlID("Normal"), "bg")
-exe "highlight RemembrallFloating ctermbg=".(normal_bg+1)
+exe "highlight RemembrallFloating ctermbg=".(normal_bg+0)

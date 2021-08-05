@@ -102,11 +102,13 @@ function! s:open()
           \ 'width': width,
           \ 'height': 10,
           \ 'row': 2,
-          \ 'col': column
+          \ 'col': column,
+          \ 'border': 'rounded'
           \ }
     let winid = nvim_open_win(buf, 0, opts)
     let hlgroup = "RemembrallFloating"
-    call setwinvar(winid, '&winhl', 'Normal:'.hlgroup.',NormalNC:'.hlgroup.',FoldColumn:'.hlgroup)
+    call setwinvar(winid, '&winhl', 'FloatBorder:'.hlgroup.',Normal:'.hlgroup.',NormalNC:'.hlgroup.',FoldColumn:'.hlgroup)
+    " call setwinvar(winid, '&winhl', 'FloatBorder:'.hlgroup)
     exe win_id2win(winid)."wincmd w"
     let s:is_floating = 1
   else
@@ -266,7 +268,6 @@ function! remembrall#remind(mode, chars)
   endif
 
   call s:open()
-  " return
   try
     let keys = s:hints(a:mode, a:chars, '')
   catch /^Vim:Interrupt$/
