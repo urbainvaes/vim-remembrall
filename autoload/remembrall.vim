@@ -25,6 +25,7 @@ let s:defaultZoomKey = "\<c-t>"
 let s:defaultSearch = 1
 let s:defaultAutoAccept = 1
 let s:defaultAcceptKey = "\<c-m>"
+let s:defaultFloating = has("nvim")
 
 let s:scroll = {
       \ "\<up>":       "\<c-y>", "\<c-y>": "\<c-y>",
@@ -87,13 +88,39 @@ function! s:open()
   let s:alternate = @#
   setlocal nostartofline
   let s:positions = { 'current': s:getpos() }
-  execute get(g:, 'remembrall_window', s:defaultWindow)
-  let s:positions.remembrall = s:getpos()
-  let s:inplace = s:positions.current.tab == s:positions.remembrall.tab &&
-        \ s:positions.current.win == s:positions.remembrall.win &&
-        \ s:positions.current.cnt == s:positions.remembrall.cnt
+  let floating = get(g:, 'remembrall_flating', s:defaultFloating)
+  if floating
+    let s:inplace = 0
+    let width = (&columns / 3) * 2
+    let [row, column] = [1, &columns / 6]
+    let buf = nvim_create_buf(v:false, v:true)
+    call nvim_buf_set_lines(buf, 0, 1, v:true, ["> Remembrall"])
+    let opts = {
+          \ 'relative': 'editor',
+          \ 'anchor': 'NW',
+          \ 'style': 'minimal',
+          \ 'width': width,
+          \ 'height': 10,
+          \ 'row': 2,
+          \ 'col': column
+          \ }
+    let winid = nvim_open_win(buf, 0, opts)
+    let hlgroup = "RemembrallFloating"
+    call setwinvar(winid, '&winhl', 'Normal:'.hlgroup.',NormalNC:'.hlgroup.',FoldColumn:'.hlgroup)
+    exe win_id2win(winid)."wincmd w"
+    let s:is_floating = 1
+  else
+    execute get(g:, 'remembrall_window', s:defaultWindow)
+    let s:positions.remembrall = s:getpos()
+    let s:inplace = s:positions.current.tab == s:positions.remembrall.tab &&
+          \ s:positions.current.win == s:positions.remembrall.win &&
+          \ s:positions.current.cnt == s:positions.remembrall.cnt
+    setlocal statusline=>\ Remembrall nocursorline nofoldenable
+    let s:is_floating = 0
+  end
   setlocal filetype=remembrall nonumber nospell buftype=nofile bufhidden=hide
         \ nobuflisted nowrap modifiable  statusline=>\ Remembrall nocursorline nofoldenable
+  let s:positions.remembrall = s:getpos()
 endfunction
 
 function! s:toggleZoom()
@@ -156,10 +183,13 @@ function! s:display_matches(mode, p_prefix, s_prefix)
   silent execute 'vglobal/\m^...' . a:s_prefix . '/d _'
   silent execute 'global/Remembrall/d _'
   silent! %substitute/\m^\(...\)/\1 /
-  silent norm gg
+  if s:is_floating
+    let [firstLine, secondLine] = ["> Remembrall: ".a:p_prefix, ""]
+    silent 0put=firstLine
+    silent 1put=secondLine
+  end
   call histdel("search", -1)
   let @/ = histget("search", -1)
-
   syntax clear hintArg
   execute 'syntax match hintArg /\m\s' . a:s_prefix . '/ contained nextgroup=hintMap'
 endfunction
@@ -172,7 +202,7 @@ function! s:hints(mode, prefix, newch)
 
   call s:display_matches(a:mode, p_prefix, s_prefix)
 
-  if line('$') == 1
+  if line('$') == 1 + 2*s:is_floating
     if search('^....'.s_prefix.'\s') || !search('^....'.s_prefix)
       if get(g:, "remembrall_auto_accept", s:defaultAutoAccept)
         return prefix
@@ -236,6 +266,7 @@ function! remembrall#remind(mode, chars)
   endif
 
   call s:open()
+  " return
   try
     let keys = s:hints(a:mode, a:chars, '')
   catch /^Vim:Interrupt$/

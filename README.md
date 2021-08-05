@@ -38,11 +38,11 @@ For example, if this list is set to `["?"]`,
 then the plugin will append the character `?` in the left-hand side of all the mappings it defines.
 The relevant part of the plugin code should make this clear:
 ```vim
-    for suffix in s:suffixes
-      for key in s:normal_keys
-        silent execute "nnoremap <silent> <expr>" key.suffix "Remembrall('".key."')"
-      endfor
-    endfor
+for suffix in s:suffixes
+  for key in s:normal_keys
+    silent execute "nnoremap <silent> <expr>" key.suffix "Remembrall('".key."')"
+  endfor
+endfor
 ```
 
 To avoid the timeout between a key press and the moment Remembrall opens,

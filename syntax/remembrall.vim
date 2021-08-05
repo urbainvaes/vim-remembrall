@@ -21,14 +21,21 @@
 " THE SOFTWARE.
 
 syntax clear
+
 syntax match hintMode /^.../ nextgroup=hintArg
 syntax match hintArg /\s/ contained nextgroup=hintMap
 syntax match hintMap /[^ ]*\s/ contained nextgroup=hintScope skipwhite
 syntax match hintScope /\s*[*&]\{0,1}@\{0,1}/ contained nextgroup=hintValue skipwhite
 syntax match hintValue /.*$/ contained
 
+syntax match firstLine /^> Remembrall/
+highlight default link firstLine Special
+
 highlight default link hintMode Type
 highlight default link hintArg SpecialChar
 highlight default link hintMap Constant
 highlight default link hintScope Label
 highlight default link hintValue Function
+
+let normal_bg = synIDattr(hlID("Normal"), "bg")
+exe "highlight RemembrallFloating ctermbg=".(normal_bg+1)
