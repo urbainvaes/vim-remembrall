@@ -133,7 +133,6 @@ function! s:toggleZoom()
   else
     let statusline=&statusline
     tab split
-    echom "set statusline=".escape(statusline, " ")
     set showtabline=0
   endif
   let s:zoom = !s:zoom
